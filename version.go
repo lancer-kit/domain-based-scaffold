@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/lancer-kit/service-scaffold/info"
+	"github.com/lancer-kit/domain-based-scaffold/info"
 )
 
 var (

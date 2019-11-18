@@ -1,4 +1,4 @@
-package middlewares
+package delivery
 
 import (
 	"context"
@@ -8,8 +8,8 @@ import (
 	"github.com/lancer-kit/armory/api/render"
 )
 
-// VerifySomething is an example of custom middleware which checks parameter value from url
-func VerifySomething() func(http.Handler) http.Handler {
+// VerifySomethingMiddleware is an example of custom middleware which checks parameter value from url
+func VerifySomethingMiddleware() func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			mId := chi.URLParam(r, "mId")

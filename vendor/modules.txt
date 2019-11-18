@@ -1,0 +1,77 @@
+# github.com/Masterminds/squirrel v0.0.0-20170825200431-a6b93000bd21
+github.com/Masterminds/squirrel
+# github.com/getsentry/sentry-go v0.2.1
+github.com/getsentry/sentry-go
+# github.com/go-chi/chi v3.3.2+incompatible
+github.com/go-chi/chi
+github.com/go-chi/chi/middleware
+# github.com/go-chi/cors v1.0.0
+github.com/go-chi/cors
+# github.com/go-ozzo/ozzo-validation v3.4.0+incompatible
+github.com/go-ozzo/ozzo-validation
+# github.com/jmoiron/sqlx v0.0.0-20180614180643-0dae4fefe7c0
+github.com/jmoiron/sqlx
+github.com/jmoiron/sqlx/reflectx
+# github.com/konsorten/go-windows-terminal-sequences v1.0.2
+github.com/konsorten/go-windows-terminal-sequences
+# github.com/lancer-kit/armory v1.5.2
+github.com/lancer-kit/armory/api
+github.com/lancer-kit/armory/api/httpx
+github.com/lancer-kit/armory/api/render
+github.com/lancer-kit/armory/auth
+github.com/lancer-kit/armory/crypto
+github.com/lancer-kit/armory/db
+github.com/lancer-kit/armory/log
+github.com/lancer-kit/armory/natsx
+github.com/lancer-kit/armory/tools
+# github.com/lancer-kit/uwe v1.0.1
+github.com/lancer-kit/uwe
+# github.com/lann/builder v0.0.0-20180802200727-47ae307949d0
+github.com/lann/builder
+# github.com/lann/ps v0.0.0-20150810152359-62de8c46ede0
+github.com/lann/ps
+# github.com/leesper/couchdb-golang v1.2.1
+github.com/leesper/couchdb-golang
+# github.com/lib/pq v0.0.0-20180523175426-90697d60dd84
+github.com/lib/pq
+github.com/lib/pq/oid
+# github.com/mailru/easyjson v0.0.0-20180730094502-03f2033d19d5
+github.com/mailru/easyjson
+github.com/mailru/easyjson/buffer
+github.com/mailru/easyjson/jlexer
+github.com/mailru/easyjson/jwriter
+# github.com/nats-io/go-nats v1.5.0
+github.com/nats-io/go-nats
+github.com/nats-io/go-nats/encoders/builtin
+github.com/nats-io/go-nats/util
+# github.com/nats-io/nuid v1.0.0
+github.com/nats-io/nuid
+# github.com/olivere/elastic v6.2.26+incompatible
+github.com/olivere/elastic
+github.com/olivere/elastic/config
+github.com/olivere/elastic/uritemplates
+# github.com/onrik/logrus v0.4.0
+github.com/onrik/logrus/filename
+github.com/onrik/logrus/sentry
+# github.com/pkg/errors v0.8.1
+github.com/pkg/errors
+# github.com/rubenv/sql-migrate v0.0.0-20180704111356-3f452fc0ebeb
+github.com/rubenv/sql-migrate
+github.com/rubenv/sql-migrate/sqlparse
+# github.com/sheb-gregor/sam v0.0.0-20190523194332-8a13811ebaf9
+github.com/sheb-gregor/sam
+# github.com/sirupsen/logrus v1.4.2
+github.com/sirupsen/logrus
+# github.com/urfave/cli v1.20.0
+github.com/urfave/cli
+# golang.org/x/crypto v0.0.0-20190621222207-cc06ce4a13d4
+golang.org/x/crypto/ed25519
+golang.org/x/crypto/ed25519/internal/edwards25519
+# golang.org/x/sys v0.0.0-20190515120540-06a5c4944438
+golang.org/x/sys/unix
+# gopkg.in/gorp.v1 v1.7.1
+gopkg.in/gorp.v1
+# gopkg.in/sohlich/elogrus.v3 v3.0.0-20180410122755-1fa29e2f2009
+gopkg.in/sohlich/elogrus.v3
+# gopkg.in/yaml.v2 v2.2.2
+gopkg.in/yaml.v2

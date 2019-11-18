@@ -1,9 +1,9 @@
-package cmd
+package actions
 
 import (
-	"github.com/lancer-kit/service-scaffold/config"
-	"github.com/lancer-kit/service-scaffold/initialization"
-	"github.com/lancer-kit/service-scaffold/workers"
+	"github.com/lancer-kit/domain-based-scaffold/actions/initialization"
+	"github.com/lancer-kit/domain-based-scaffold/config"
+	"github.com/lancer-kit/domain-based-scaffold/workers"
 	"github.com/urfave/cli"
 )
 

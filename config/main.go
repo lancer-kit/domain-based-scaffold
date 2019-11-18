@@ -9,7 +9,7 @@ import (
 )
 
 // TODO: change me
-const ServiceName = "service-scaffold"
+const ServiceName = "domain-based-scaffold"
 
 // config is a `Cfg` singleton var,
 // for access use the `Config` method.

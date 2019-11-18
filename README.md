@@ -7,15 +7,15 @@ To bootstrap new project:
 ```shell script
 mkdir -p $GOPATH/src/github.com/lancer-kit/
 cd $GOPATH/src/github.com/lancer-kit/
-git clone https://github.com/lancer-kit/service-scaffold
+git clone https://github.com/lancer-kit/domain-based-scaffold
 ### OR
-go get github.com/lancer-kit/service-scaffold
+go get github.com/lancer-kit/domain-based-scaffold
 ```
 
 2. Go to scaffold directory and run `./init.sh`
 
 ```shell script
-cd $GOPATH/src/github.com/lancer-kit/service-scaffold
+cd $GOPATH/src/github.com/lancer-kit/domain-based-scaffold
 sh ./init.sh
 ```
 
@@ -28,7 +28,7 @@ go get -u github.com/lancer-kit/forge
 #### Example
 
 ```shell script
-cd $GOPATH/src/github.com/lancer-kit/service-scaffold
+cd $GOPATH/src/github.com/lancer-kit/domain-based-scaffold
 sh ./init.sh 
 Enter VCS domain (default: github.com): gitlab.com
 Enter VCS username or group: inn4sci-go

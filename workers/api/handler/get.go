@@ -4,17 +4,18 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/lancer-kit/domain-based-scaffold/domains/service/repo"
+
 	"github.com/go-chi/chi"
 	"github.com/lancer-kit/armory/api/render"
 	"github.com/lancer-kit/armory/db"
 	"github.com/lancer-kit/armory/log"
-	"github.com/lancer-kit/service-scaffold/models"
 )
 
 func AllBuzz(w http.ResponseWriter, r *http.Request) {
 	logger := log.GetLogEntry(r)
 
-	dbQuery := models.NewQ(nil).BuzzFeed()
+	dbQuery := repo.NewQ(nil).BuzzFeed()
 	pageQuery, err := db.ParsePageQuery(r.URL.Query())
 	if err != nil {
 		logger.WithError(err).Error("invalid page query")
@@ -47,7 +48,7 @@ func GetBuzz(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	dataQ := models.NewQ(nil).BuzzFeed()
+	dataQ := repo.NewQ(nil).BuzzFeed()
 	res, err := dataQ.GetByID(int64(idINT))
 	if err != nil {
 		logger.WithError(err).Error("can not get by id")
@@ -68,7 +69,7 @@ func GetAllDocument(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	docQ, err := models.CreateCustomDocumentQ()
+	docQ, err := repo.CreateCustomDocumentQ()
 	if err != nil {
 		logger.WithError(err).Error("unable to create custom doc")
 		render.ServerError(w)
@@ -95,7 +96,7 @@ func GetDocument(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	docQ, err := models.CreateCustomDocumentQ()
+	docQ, err := repo.CreateCustomDocumentQ()
 	if err != nil {
 		logger.WithError(err).Error("unable to create custom doc")
 		render.ServerError(w)

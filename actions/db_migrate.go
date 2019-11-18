@@ -1,12 +1,12 @@
-package cmd
+package actions
 
 import (
 	"fmt"
 
 	"github.com/lancer-kit/armory/db"
 	"github.com/lancer-kit/armory/log"
-	"github.com/lancer-kit/service-scaffold/config"
-	"github.com/lancer-kit/service-scaffold/dbschema"
+	"github.com/lancer-kit/domain-based-scaffold/actions/migrations"
+	"github.com/lancer-kit/domain-based-scaffold/config"
 	"github.com/urfave/cli"
 )
 
@@ -64,7 +64,7 @@ var migrateCommand = cli.Command{
 }
 
 func migrateDB(direction db.MigrateDir) *cli.ExitError {
-	count, err := dbschema.Migrate(config.Config().DB.ConnURL, direction)
+	count, err := migrations.Migrate(config.Config().DB.ConnURL, direction)
 	if err != nil {
 		log.Default.WithError(err).Error("Migrations failed")
 		return cli.NewExitError(fmt.Sprintf("migration %s failed", direction), 1)

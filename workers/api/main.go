@@ -11,10 +11,10 @@ import (
 	"github.com/lancer-kit/armory/api/render"
 	"github.com/lancer-kit/armory/auth"
 	"github.com/lancer-kit/armory/log"
-	"github.com/lancer-kit/service-scaffold/config"
-	"github.com/lancer-kit/service-scaffold/info"
-	"github.com/lancer-kit/service-scaffold/workers/api/handler"
-	"github.com/lancer-kit/service-scaffold/workers/api/middlewares"
+	"github.com/lancer-kit/domain-based-scaffold/config"
+	"github.com/lancer-kit/domain-based-scaffold/domains/service/delivery"
+	"github.com/lancer-kit/domain-based-scaffold/info"
+	"github.com/lancer-kit/domain-based-scaffold/workers/api/handler"
 	"github.com/sirupsen/logrus"
 )
 
@@ -58,7 +58,7 @@ func GetRouter(logger *logrus.Entry, config api.Config) http.Handler {
 
 			r.Route("/{mId}/buzz", func(r chi.Router) {
 				//custom middleware example
-				r.Use(middlewares.VerifySomething())
+				r.Use(delivery.VerifySomethingMiddleware())
 				r.Post("/", handler.AddBuzz)
 				r.Get("/", handler.AllBuzz)
 

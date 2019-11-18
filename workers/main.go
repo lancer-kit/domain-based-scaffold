@@ -1,11 +1,11 @@
 package workers
 
 import (
-	"github.com/lancer-kit/service-scaffold/config"
-	"github.com/lancer-kit/service-scaffold/workers/api"
-	"github.com/lancer-kit/service-scaffold/workers/foobar"
-	"github.com/lancer-kit/uwe"
 	"github.com/lancer-kit/armory/log"
+	"github.com/lancer-kit/domain-based-scaffold/config"
+	"github.com/lancer-kit/domain-based-scaffold/workers/api"
+	"github.com/lancer-kit/domain-based-scaffold/workers/foobar"
+	"github.com/lancer-kit/uwe"
 )
 
 var WorkerChief uwe.Chief

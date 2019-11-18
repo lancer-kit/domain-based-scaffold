@@ -7,8 +7,8 @@ import (
 
 	"github.com/lancer-kit/armory/log"
 	"github.com/lancer-kit/armory/tools"
-	"github.com/lancer-kit/service-scaffold/config"
-	"github.com/lancer-kit/service-scaffold/dbschema"
+	"github.com/lancer-kit/domain-based-scaffold/actions/migrations"
+	"github.com/lancer-kit/domain-based-scaffold/config"
 	"github.com/sirupsen/logrus"
 	"github.com/urfave/cli"
 )
@@ -58,7 +58,7 @@ func Init(c *cli.Context) *config.Cfg {
 	wg.Wait()
 
 	if cfg.DB.AutoMigrate {
-		count, err := dbschema.Migrate(config.Config().DB.ConnURL, "up")
+		count, err := migrations.Migrate(config.Config().DB.ConnURL, "up")
 		if err != nil {
 			log.Default.WithError(err).Fatal("Migrations failed")
 			return cfg

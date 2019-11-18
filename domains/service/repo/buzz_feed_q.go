@@ -1,7 +1,8 @@
-package models
+package repo
 
 import (
 	"database/sql"
+	"github.com/lancer-kit/domain-based-scaffold/domains/service/entities"
 	"time"
 
 	sq "github.com/Masterminds/squirrel"
@@ -10,9 +11,9 @@ import (
 
 type BuzzFeedQI interface {
 	// Insert adds new `BuzzFeed` record to `buzzFeeds` table.
-	Insert(buzzFeed *BuzzFeed) error
+	Insert(buzzFeed *entities.BuzzFeed) error
 	// Update updates row with passed `uid`.
-	Update(id int64, buzzFeed *BuzzFeed) error
+	Update(id int64, buzzFeed *entities.BuzzFeed) error
 	// UpdateBuzzDescription sets new value of
 	// `description` column for row with passed `uid`.
 	UpdateBuzzDescription(id int64, description string) error
@@ -24,22 +25,22 @@ type BuzzFeedQI interface {
 	// WithName adds filter by `Name` column.
 	WithName(Name string) BuzzFeedQI
 	// WithBuzzType adds filter by `BuzzType` column.
-	WithBuzzType(BuzzType ExampleType) BuzzFeedQI
+	WithBuzzType(BuzzType entities.ExampleType) BuzzFeedQI
 	// WithDescription adds filter by `Description` column.
 	WithDescription(Description string) BuzzFeedQI
 	// WithDetails adds filter by `Details` column.
-	WithDetails(Details Feed) BuzzFeedQI
+	WithDetails(Details entities.Feed) BuzzFeedQI
 	// WithCreatedAt adds filter by `CreatedAt` column.
 	WithCreatedAt(CreatedAt int64) BuzzFeedQI
 	// WithUpdatedAt adds filter by `UpdatedAt` column.
 	WithUpdatedAt(UpdatedAt int64) BuzzFeedQI
 
 	// Get returns first row of the result of query execution.
-	Get() (*BuzzFeed, error)
+	Get() (*entities.BuzzFeed, error)
 	// Select returns all records of the result of query execution.
-	Select() ([]BuzzFeed, error)
+	Select() ([]entities.BuzzFeed, error)
 	// GetByID returns one row with passed `id`.
-	GetByID(id int64) (*BuzzFeed, error)
+	GetByID(id int64) (*entities.BuzzFeed, error)
 
 	// Until sets lower time bound.
 	Since(timestamp int64) BuzzFeedQI
@@ -69,7 +70,7 @@ func (q *Q) BuzzFeed() BuzzFeedQI {
 }
 
 // Insert adds new `BuzzFeed` record to `buzzFeeds` table.
-func (q *buzzFeedQ) Insert(buzzFeed *BuzzFeed) error {
+func (q *buzzFeedQ) Insert(buzzFeed *entities.BuzzFeed) error {
 	query := sq.Insert(q.table.Name).SetMap(map[string]interface{}{
 
 		"id":          buzzFeed.ID,
@@ -88,7 +89,7 @@ func (q *buzzFeedQ) Insert(buzzFeed *BuzzFeed) error {
 
 // Update updates row with passed `uid`.
 //fixme: check that this is the correct update
-func (q *buzzFeedQ) Update(id int64, buzzFeed *BuzzFeed) error {
+func (q *buzzFeedQ) Update(id int64, buzzFeed *entities.BuzzFeed) error {
 	query := sq.Update(q.table.Name).SetMap(map[string]interface{}{
 
 		"id":          buzzFeed.ID,
@@ -123,7 +124,7 @@ func (q *buzzFeedQ) WithName(Name string) BuzzFeedQI {
 }
 
 // WithBuzzType adds filter by `BuzzType` column.
-func (q *buzzFeedQ) WithBuzzType(BuzzType ExampleType) BuzzFeedQI {
+func (q *buzzFeedQ) WithBuzzType(BuzzType entities.ExampleType) BuzzFeedQI {
 	q.table.QBuilder = q.table.QBuilder.Where("buzz_type = ?", BuzzType)
 	return q
 }
@@ -135,7 +136,7 @@ func (q *buzzFeedQ) WithDescription(Description string) BuzzFeedQI {
 }
 
 // WithDetails adds filter by `Details` column.
-func (q *buzzFeedQ) WithDetails(Details Feed) BuzzFeedQI {
+func (q *buzzFeedQ) WithDetails(Details entities.Feed) BuzzFeedQI {
 	q.table.QBuilder = q.table.QBuilder.Where("details = ?", Details)
 	return q
 }
@@ -171,8 +172,8 @@ func (q *buzzFeedQ) SetPage(pq *db.PageQuery) BuzzFeedQI {
 }
 
 // Select returns all records of the result of query execution.
-func (q *buzzFeedQ) Select() ([]BuzzFeed, error) {
-	res := make([]BuzzFeed, 0, 1)
+func (q *buzzFeedQ) Select() ([]entities.BuzzFeed, error) {
+	res := make([]entities.BuzzFeed, 0, 1)
 	q.table.ApplyPage("id")
 
 	err := q.parent.Select(q.table.QBuilder, &res)
@@ -184,8 +185,8 @@ func (q *buzzFeedQ) Select() ([]BuzzFeed, error) {
 }
 
 // Get returns first row of the result of query execution.
-func (q *buzzFeedQ) Get() (*BuzzFeed, error) {
-	res := new(BuzzFeed)
+func (q *buzzFeedQ) Get() (*entities.BuzzFeed, error) {
+	res := new(entities.BuzzFeed)
 	q.table.ApplyPage("id")
 
 	err := q.parent.Get(q.table.QBuilder, res)
@@ -198,8 +199,8 @@ func (q *buzzFeedQ) Get() (*BuzzFeed, error) {
 
 // GetByID returns one row with passed `id`.
 // fixme: check that this is the correct getter
-func (q *buzzFeedQ) GetByID(id int64) (*BuzzFeed, error) {
-	res := new(BuzzFeed)
+func (q *buzzFeedQ) GetByID(id int64) (*entities.BuzzFeed, error) {
+	res := new(entities.BuzzFeed)
 	err := q.parent.Get(q.table.QBuilder.Where("id = ?", id), res)
 	if err == sql.ErrNoRows {
 		return nil, nil

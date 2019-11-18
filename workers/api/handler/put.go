@@ -8,7 +8,8 @@ import (
 	"github.com/lancer-kit/armory/api/httpx"
 	"github.com/lancer-kit/armory/api/render"
 	"github.com/lancer-kit/armory/log"
-	"github.com/lancer-kit/service-scaffold/models"
+	"github.com/lancer-kit/domain-based-scaffold/domains/service/entities"
+	"github.com/lancer-kit/domain-based-scaffold/domains/service/repo"
 )
 
 func ChangeBuzz(w http.ResponseWriter, r *http.Request) {
@@ -33,7 +34,7 @@ func ChangeBuzz(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	dataQ := models.NewQ(nil).BuzzFeed()
+	dataQ := repo.NewQ(nil).BuzzFeed()
 	err = dataQ.UpdateBuzzDescription(int64(idINT), data.Description)
 	if err != nil {
 		logger.WithError(err).Error("Can not update buzzfeed description")
@@ -54,7 +55,7 @@ func ChangeDocument(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data := new(models.CustomDocument)
+	data := new(entities.CustomDocument)
 	err = httpx.ParseJSONBody(r, data)
 	if err != nil {
 		logger.WithError(err).Error("can not parse the body")
@@ -62,7 +63,7 @@ func ChangeDocument(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	docQ, err := models.CreateCustomDocumentQ()
+	docQ, err := repo.CreateCustomDocumentQ()
 	if err != nil {
 		logger.WithError(err).Error("can not parse the body")
 		render.ServerError(w)

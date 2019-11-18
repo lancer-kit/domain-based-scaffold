@@ -6,13 +6,14 @@ import (
 	"github.com/lancer-kit/armory/api/httpx"
 	"github.com/lancer-kit/armory/api/render"
 	"github.com/lancer-kit/armory/log"
-	"github.com/lancer-kit/service-scaffold/models"
+	"github.com/lancer-kit/domain-based-scaffold/domains/service/entities"
+	"github.com/lancer-kit/domain-based-scaffold/domains/service/repo"
 )
 
 func AddBuzz(w http.ResponseWriter, r *http.Request) {
 	logger := log.GetLogEntry(r)
 
-	data := new(models.BuzzFeed)
+	data := new(entities.BuzzFeed)
 	err := httpx.ParseJSONBody(r, data)
 	if err != nil {
 		logger.WithError(err).Error("can not parse the body")
@@ -21,7 +22,7 @@ func AddBuzz(w http.ResponseWriter, r *http.Request) {
 	}
 
 	logger.Debug("Trying to write data into database")
-	dataQ := models.NewQ(nil).BuzzFeed()
+	dataQ := repo.NewQ(nil).BuzzFeed()
 	err = dataQ.Insert(data)
 	if err != nil {
 		logger.WithError(err).Error("Can not insert data into database")
@@ -36,7 +37,7 @@ func AddBuzz(w http.ResponseWriter, r *http.Request) {
 func AddDocument(w http.ResponseWriter, r *http.Request) {
 	logger := log.GetLogEntry(r)
 
-	data := new(models.CustomDocument)
+	data := new(entities.CustomDocument)
 	err := httpx.ParseJSONBody(r, data)
 	if err != nil {
 		logger.WithError(err).Error("can not parse the body")
@@ -45,7 +46,7 @@ func AddDocument(w http.ResponseWriter, r *http.Request) {
 	}
 
 	logger.Debug("Trying to write data into couchdb")
-	docQ, err := models.CreateCustomDocumentQ()
+	docQ, err := repo.CreateCustomDocumentQ()
 	if err != nil {
 		logger.WithError(err).Error("Can not establish connection with database")
 		render.ResultNotFound.SetError("Not found").Render(w)

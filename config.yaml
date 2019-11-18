@@ -10,7 +10,7 @@ api:
   api_request_timeout: 60
 
 db:
-  conn_url: "postgres://user:password@localhost/skeleton_db?sslmode=disable"
+  conn_url: "postgres://localhost/skeleton_db?sslmode=disable"
   init_timeout: 60 # in seconds
   auto_migrate: true
   wait_for_db: true

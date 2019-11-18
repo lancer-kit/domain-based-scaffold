@@ -20,4 +20,4 @@ Run:
 
 ---
 
-Project based on [Service-Scaffold](https://github.com/lancer-kit/service-scaffold)
+Project based on [Service-Scaffold](https://github.com/lancer-kit/domain-based-scaffold)

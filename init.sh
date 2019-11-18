@@ -6,7 +6,7 @@ set -e
 export LC_CTYPE=C
 export LANG=C
 
-scaffold_path="github.com\/lancer-kit\/service-scaffold"
+scaffold_path="github.com\/lancer-kit\/domain-based-scaffold"
 VCS_DOMAIN=""
 VCS_USER=""
 PROJECT_NAME=""

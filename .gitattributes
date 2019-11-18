@@ -1,3 +1,4 @@
 vendor/* binary
-dbschema/bindata.go binary
+bindata.go binary
 Gopkg.lock binary
+go.sum binary

@@ -8,6 +8,5 @@ type Info struct {
 }
 
 var App = Info{
-	App: "" +
-		"service-scaffold",
+	App: "domain-based-scaffold",
 }

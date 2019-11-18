@@ -2,13 +2,12 @@ package handler
 
 import (
 	"net/http"
-
 	"strconv"
 
 	"github.com/go-chi/chi"
 	"github.com/lancer-kit/armory/api/render"
 	"github.com/lancer-kit/armory/log"
-	"github.com/lancer-kit/service-scaffold/models"
+	"github.com/lancer-kit/domain-based-scaffold/domains/service/repo"
 )
 
 func DeleteBuzz(w http.ResponseWriter, r *http.Request) {
@@ -22,7 +21,7 @@ func DeleteBuzz(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	dataQ := models.NewQ(nil).BuzzFeed()
+	dataQ := repo.NewQ(nil).BuzzFeed()
 	err = dataQ.DeleteByID(int64(idINT))
 	if err != nil {
 		logger.WithError(err).Error("can not delete BuzzFeed")
@@ -45,7 +44,7 @@ func DeleteDocument(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	docQ, err := models.CreateCustomDocumentQ()
+	docQ, err := repo.CreateCustomDocumentQ()
 	if err != nil {
 		logger.WithError(err).Error("can not create custom document")
 		render.ServerError(w)

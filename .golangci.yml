@@ -14,26 +14,26 @@ linters-settings:
     min-occurrences: 2
 
 run:
-  skip-dirs:
-    - templates
+  modules-download-mode: vendor
 
 linters:
   enable:
+    - dogsled
+    - dupl
+    - funlen
+    - goimports
     - goconst
+    - gocritic
+    - gochecknoinits
+    - gochecknoglobals
     - gofmt
+    - gosec
     - lll
     - misspell
-    - scopelint
-    - gochecknoinits
-    - golint
-    - gocritic
-    - stylecheck
-    - goimports
-    - gosec
-    - unconvert
-    - unparam
-  disable:
-    - gochecknoglobals
     - maligned
-    - dupl
     - nakedret
+    - prealloc
+    - interfacer
+    - scopelint
+    - stylecheck
+    - unconvert
