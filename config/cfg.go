@@ -1,15 +1,15 @@
 package config
 
 import (
-	"github.com/go-ozzo/ozzo-validation"
-	"github.com/lancer-kit/armory/api"
+	validation "github.com/go-ozzo/ozzo-validation"
 	"github.com/lancer-kit/armory/log"
 	"github.com/lancer-kit/armory/natsx"
-	"github.com/lancer-kit/uwe"
+	"github.com/lancer-kit/uwe/v2"
+	"github.com/lancer-kit/uwe/v2/presets/api"
 )
 
-// Cfg main structure of the app configuration.
-type Cfg struct {
+// Configuration main structure of the app configuration.
+type Configuration struct {
 	Api     api.Config   `json:"api" yaml:"api"`
 	DB      DBCfg        `json:"db" yaml:"db"`           // DB is a database connection string.
 	CouchDB string       `json:"couchdb" yaml:"couchdb"` // CouchDB is a couchdb url connection string.
@@ -24,7 +24,7 @@ type Cfg struct {
 	Workers []uwe.WorkerName `yaml:"workers"`
 }
 
-func (cfg Cfg) Validate() error {
+func (cfg Configuration) Validate() error {
 	return validation.ValidateStruct(&cfg,
 		validation.Field(&cfg.DB, validation.Required),
 		validation.Field(&cfg.ServicesInitTimeout, validation.Required),
@@ -32,14 +32,14 @@ func (cfg Cfg) Validate() error {
 		//validation.Field(&cfg.CouchDB, validation.Required),
 		validation.Field(&cfg.Api, validation.Required),
 		validation.Field(&cfg.NATS, validation.Required),
-		validation.Field(&cfg.Workers, &WorkerExistRule{
-			AvailableWorkers: AvailableWorkers,
+		validation.Field(&cfg.Workers, &uwe.WorkerExistRule{
+			AvailableWorkers: availableWorkers,
 		}),
 	)
 }
 
-func (cfg Cfg) FillDefaultWorkers() {
-	for k := range AvailableWorkers {
+func (cfg Configuration) FillDefaultWorkers() {
+	for k := range availableWorkers {
 		cfg.Workers = append(cfg.Workers, k)
 	}
 }

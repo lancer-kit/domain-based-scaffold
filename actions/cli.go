@@ -1,11 +1,30 @@
 package actions
 
 import (
+	"github.com/lancer-kit/armory/log"
 	"github.com/lancer-kit/domain-based-scaffold/actions/initialization"
 	"github.com/lancer-kit/domain-based-scaffold/config"
 	"github.com/lancer-kit/domain-based-scaffold/workers"
 	"github.com/urfave/cli"
 )
+
+const FlagConfig = "config"
+
+func GetFlags() []cli.Flag {
+	return []cli.Flag{
+		cli.StringFlag{
+			Name:  FlagConfig + ", c",
+			Value: "./config.yaml",
+		},
+	}
+}
+
+func GetCommands() []cli.Command {
+	return []cli.Command{
+		migrateCommand,
+		serveCommand,
+	}
+}
 
 var serveCommand = cli.Command{
 	Name:   "serve",
@@ -15,10 +34,7 @@ var serveCommand = cli.Command{
 
 func serveAction(c *cli.Context) error {
 	cfg := initialization.Init(c)
-
-	err := workers.GetChief().Run(cfg.Workers...)
-	if err != nil {
-		return cli.NewExitError(err, 1)
-	}
+	chief := workers.GetChief(log.Get(), cfg.Workers)
+	chief.Run()
 	return nil
 }

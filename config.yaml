@@ -5,7 +5,6 @@ services_init_timeout: 15 # in seconds
 api:
   host: localhost
   port: 2490
-  dev_mode: true
   enable_cors: true
   api_request_timeout: 60
 

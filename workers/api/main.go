@@ -7,25 +7,18 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/cors"
-	"github.com/lancer-kit/armory/api"
 	"github.com/lancer-kit/armory/api/render"
 	"github.com/lancer-kit/armory/auth"
 	"github.com/lancer-kit/armory/log"
-	"github.com/lancer-kit/domain-based-scaffold/config"
 	"github.com/lancer-kit/domain-based-scaffold/domains/service/delivery"
 	"github.com/lancer-kit/domain-based-scaffold/info"
 	"github.com/lancer-kit/domain-based-scaffold/workers/api/handler"
+	"github.com/lancer-kit/uwe/v2/presets/api"
 	"github.com/sirupsen/logrus"
 )
 
-func Server() *api.Server {
-	return &api.Server{
-		Name:      "api-server",
-		GetRouter: GetRouter,
-		GetConfig: func() api.Config {
-			return config.Config().Api
-		},
-	}
+func Server(entry *logrus.Entry, apiCfg api.Config) *api.Server {
+	return api.NewServer(apiCfg, GetRouter(entry, apiCfg))
 }
 
 func GetRouter(logger *logrus.Entry, config api.Config) http.Handler {

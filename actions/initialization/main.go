@@ -16,12 +16,12 @@ import (
 const flagConfig = "config"
 const defaultInitInterval = 5 * time.Second
 
-var initConfigs = map[initModule]func(*config.Cfg, *logrus.Entry) error{
+var initConfigs = map[initModule]func(*config.Configuration, *logrus.Entry) error{
 	DB:   initDatabase,
 	NATS: initNATS,
 }
 
-func Init(c *cli.Context) *config.Cfg {
+func Init(c *cli.Context) *config.Configuration {
 	config.Init(c.GlobalString(flagConfig))
 	cfg := config.Config()
 
@@ -36,7 +36,7 @@ func Init(c *cli.Context) *config.Cfg {
 
 		wg.Add(1)
 
-		go func(module initModule, initializer func(*config.Cfg, *logrus.Entry) error, timeout time.Duration) {
+		go func(module initModule, initializer func(*config.Configuration, *logrus.Entry) error, timeout time.Duration) {
 			defer wg.Done()
 			ok := tools.RetryIncrementallyUntil(
 				defaultInitInterval,

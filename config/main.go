@@ -4,16 +4,27 @@ import (
 	"io/ioutil"
 
 	"github.com/lancer-kit/armory/log"
+	"github.com/lancer-kit/uwe/v2"
 	"github.com/sirupsen/logrus"
 	"gopkg.in/yaml.v2"
 )
 
-// TODO: change me
-const ServiceName = "domain-based-scaffold"
+const (
+	// TODO: change me
+	ServiceName = "domain-based-scaffold"
 
-// config is a `Cfg` singleton var,
+	WorkerAPIServer uwe.WorkerName = "api-server"
+	WorkerFooBar    uwe.WorkerName = "foobar"
+)
+
+var availableWorkers = map[uwe.WorkerName]struct{}{
+	WorkerAPIServer: {},
+	WorkerFooBar:    {},
+}
+
+// config is a `Configuration` singleton var,
 // for access use the `Config` method.
-var config *Cfg
+var config *Configuration
 
 func Init(path string) {
 	rawConfig, err := ioutil.ReadFile(path)
@@ -24,7 +35,7 @@ func Init(path string) {
 			Fatal("unable to read config file")
 	}
 
-	config = new(Cfg)
+	config = new(Configuration)
 	err = yaml.Unmarshal(rawConfig, config)
 	if err != nil {
 		logrus.New().
@@ -48,7 +59,7 @@ func Init(path string) {
 }
 
 // Config returns the config obj.
-func Config() *Cfg {
+func Config() *Configuration {
 	return config
 }
 
