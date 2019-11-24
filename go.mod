@@ -9,7 +9,7 @@ require (
 	github.com/go-chi/cors v1.0.0
 	github.com/go-ozzo/ozzo-validation v3.6.0+incompatible
 	github.com/go-sql-driver/mysql v1.4.1 // indirect
-	github.com/lancer-kit/armory v1.5.2
+	github.com/lancer-kit/armory v1.7.0
 	github.com/lancer-kit/uwe/v2 v2.0.5
 	github.com/leesper/couchdb-golang v1.2.1
 	github.com/mattn/go-sqlite3 v1.13.0 // indirect
@@ -19,5 +19,3 @@ require (
 	github.com/urfave/cli v1.20.0
 	gopkg.in/yaml.v2 v2.2.2
 )
-
-replace github.com/lancer-kit/armory v1.5.2 => ../armory
