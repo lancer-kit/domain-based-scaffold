@@ -53,13 +53,13 @@ type BuzzFeedQI interface {
 const tableBuzzFeeds = "buzzFeeds"
 
 type buzzFeedQ struct {
-	parent *Q
+	parent *repo
 	table  db.Table
 
 	Err error
 }
 
-func (q *Q) BuzzFeed() BuzzFeedQI {
+func (q *repo) BuzzFeed() BuzzFeedQI {
 	return &buzzFeedQ{
 		parent: q,
 		table: db.Table{

@@ -17,8 +17,8 @@ const flagConfig = "config"
 const defaultInitInterval = 5 * time.Second
 
 var initConfigs = map[initModule]func(*config.Configuration, *logrus.Entry) error{
-	DB:   initDatabase,
-	NATS: initNATS,
+	DB: initDatabase,
+	//NATS: initNATS,
 }
 
 func Init(c *cli.Context) *config.Configuration {
@@ -31,7 +31,7 @@ func Init(c *cli.Context) *config.Configuration {
 		if module == DB {
 			timeout = time.Duration(cfg.DB.InitTimeout) * time.Second
 		} else {
-			timeout = time.Duration(cfg.ServicesInitTimeout) * time.Second
+			timeout = time.Duration(cfg.ModulesInitTimeout) * time.Second
 		}
 
 		wg.Add(1)

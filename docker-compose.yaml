@@ -1,0 +1,70 @@
+version: '3'
+
+services:
+  app:
+    build: debug.dockerfile
+    ports:
+      - "8080:8080"
+      - "40000:40000"
+    links:
+      - pgsql
+      - redis
+      - rabbitmq
+
+  pgsql:
+    image: bitnami/postgresql
+    environment:
+      POSTGRESQL_USERNAME: 'user'
+      POSTGRES_PASSWORD: 'p4s5w0rd'
+      POSTGRESQL_DATABASE: 'scaffold'
+    ports:
+      - 5432:5432
+    volumes:
+      - 'postgres_data:/bitnami/postgresql'
+
+  adminer:
+    image: adminer
+    ports:
+      - 5480:8080
+
+  rabbitmq:
+    image: 'bitnami/rabbitmq:3.8'
+    environment:
+      RABBITMQ_USERNAME: 'user'
+      RABBITMQ_PASSWORD: 'p4s5w0rd'
+      RABBITMQ_ERL_COOKIE: 'd0ntus3th1ss3cr3tc00ki3'
+    ports:
+      - '4379:4369'
+      - '5672:5672'
+      - '25672:25672'
+      - '15672:15672'
+    volumes:
+      - 'rabbitmq_data:/bitnami'
+
+  redis:
+    image: bitnami/redis
+    environment:
+      REDIS_PASSWORD: p4s5w0rd
+    ports:
+      - "6379:6379"
+    volumes:
+      - 'redis_data:/bitnami'
+
+  couchdb:
+    image: bitnami/couchdb:2
+    environment:
+      ALLOW_ANONYMOUS_LOGIN: 'yes'
+    #      COUCHDB_USER: user
+    #      COUCHDB_PASSWORD: p4s5w0rd
+    ports:
+      - '5986:5986'
+      - '4369:4369'
+      - '9100:9100'
+    volumes:
+      - couchdb_data:/bitnami/couchdb
+
+volumes:
+  postgres_data: {}
+  rabbitmq_data: {}
+  redis_data: {}
+  couchdb_data: {}

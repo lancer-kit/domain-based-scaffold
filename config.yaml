@@ -1,21 +1,26 @@
 dev_mode: true
 check_auth: false
-services_init_timeout: 15 # in seconds
+modules_init_timeout: 15 # in seconds
 
 api:
   host: localhost
-  port: 2490
+  port: 8080
   enable_cors: true
   api_request_timeout: 60
 
 db:
-  conn_url: "postgres://localhost/skeleton_db?sslmode=disable"
+  conn_url: "postgres://user:p4s5w0rd@127.0.0.1/scaffold?sslmode=disable"
   init_timeout: 60 # in seconds
   auto_migrate: true
   wait_for_db: true
+#  optional connection parameters
+#  params:
+#    max_idle: 100
+#    max_open: 300
+#    max_lifetime: 3200 # in milliseconds
 
-# optional parameter -> connection string to couchDB
-#couchdb: "http://127.0.0.1:5984/"
+
+couchdb: "http://127.0.0.1:5984/"
 
 log:
   app_name: domain-based-scaffold
@@ -24,9 +29,9 @@ log:
   sentry: ""
   json: false
 
-nats:
-  host: 127.0.0.1
-  port: 4222
+#nats:
+#  host: 127.0.0.1
+#  port: 4222
 
 workers:
   - api-server

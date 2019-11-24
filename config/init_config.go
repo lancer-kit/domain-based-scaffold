@@ -51,10 +51,6 @@ func Init(path string) {
 			Fatal("Invalid configuration")
 	}
 
-	if config.Workers == nil {
-		config.FillDefaultWorkers()
-	}
-
 	initLog()
 }
 

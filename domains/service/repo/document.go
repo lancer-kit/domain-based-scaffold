@@ -14,7 +14,15 @@ type customDocumentQ struct {
 	dbInstance *cdb.Database
 }
 
-func CreateCustomDocumentQ() (*customDocumentQ, error) {
+type CustomDocumentRepo interface {
+	AddDocument(doc *entities.CustomDocument) error
+	GetAllDocument(pQ db.PageQuery) ([]entities.CustomDocument, error)
+	GetDocument(userID int64) ([]entities.CustomDocument, error)
+	UpdateDocument(userID int64, doc *entities.CustomDocument) error
+	DeleteDocument(userID int64) error
+}
+
+func (q *repo) CustomDocument() (CustomDocumentRepo, error) {
 	newDocInstance := new(customDocumentQ)
 
 	dbInstance, err := cdb.NewDatabase(config.Config().CouchDB)
@@ -57,7 +65,7 @@ func (d *customDocumentQ) GetAllDocument(pQ db.PageQuery) ([]entities.CustomDocu
 	return resSlice, nil
 }
 
-func (d *customDocumentQ) GetDocument(userID int) ([]entities.CustomDocument, error) {
+func (d *customDocumentQ) GetDocument(userID int64) ([]entities.CustomDocument, error) {
 	fields := []string{"id", "firstName", "secondName"}
 
 	res, err := d.dbInstance.Query(fields, fmt.Sprintf("id == %d", userID), nil, nil, nil, nil)
@@ -79,7 +87,7 @@ func (d *customDocumentQ) GetDocument(userID int) ([]entities.CustomDocument, er
 
 }
 
-func (d *customDocumentQ) UpdateDocument(userID int, doc *entities.CustomDocument) error {
+func (d *customDocumentQ) UpdateDocument(userID int64, doc *entities.CustomDocument) error {
 	fields := []string{"_rev", "_id"}
 	selector := fmt.Sprintf("id == %d", userID)
 	res, err := d.dbInstance.Query(fields, selector, nil, nil, nil, nil)
@@ -99,7 +107,7 @@ func (d *customDocumentQ) UpdateDocument(userID int, doc *entities.CustomDocumen
 		return errors.Wrap(err, "failed to set id")
 	}
 
-	doc.Id = int64(userID)
+	doc.Id = userID
 	err = cdb.Store(d.dbInstance, doc)
 	if err != nil {
 		return errors.Wrap(err, "Unable to write into couchdb")
@@ -107,7 +115,7 @@ func (d *customDocumentQ) UpdateDocument(userID int, doc *entities.CustomDocumen
 	return nil
 }
 
-func (d *customDocumentQ) DeleteDocument(userID int) error {
+func (d *customDocumentQ) DeleteDocument(userID int64) error {
 	fields := []string{"_id"}
 	selector := fmt.Sprintf("id == %d", userID)
 	res, err := d.dbInstance.Query(fields, selector, nil, nil, nil, nil)

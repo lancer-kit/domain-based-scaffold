@@ -34,7 +34,6 @@ var serveCommand = cli.Command{
 
 func serveAction(c *cli.Context) error {
 	cfg := initialization.Init(c)
-	chief := workers.GetChief(log.Get(), cfg.Workers)
-	chief.Run()
+	workers.GetChief(log.Get(), cfg.WorkersList()).Run()
 	return nil
 }

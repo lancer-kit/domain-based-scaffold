@@ -2,7 +2,7 @@ package migrations
 
 import (
 	"github.com/lancer-kit/armory/db"
-	"github.com/rubenv/sql-migrate"
+	migrate "github.com/rubenv/sql-migrate"
 )
 
 //go get -u github.com/lancer-kit/forge
@@ -14,7 +14,7 @@ func Migrate(connStr string, dir db.MigrateDir) (int, error) {
 	db.SetAssets(migrate.AssetMigrationSource{
 		Asset:    Asset,
 		AssetDir: AssetDir,
-		Dir:      "migrations",
+		Dir:      "postgres",
 	})
 	return db.Migrate(connStr, dir)
 }

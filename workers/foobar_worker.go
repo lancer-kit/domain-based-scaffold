@@ -1,4 +1,4 @@
-package foobar
+package workers
 
 import (
 	"time"

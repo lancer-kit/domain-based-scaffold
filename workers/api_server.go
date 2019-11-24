@@ -1,4 +1,4 @@
-package api
+package workers
 
 import (
 	"net/http"
@@ -10,19 +10,26 @@ import (
 	"github.com/lancer-kit/armory/api/render"
 	"github.com/lancer-kit/armory/auth"
 	"github.com/lancer-kit/armory/log"
+	"github.com/lancer-kit/domain-based-scaffold/config"
 	"github.com/lancer-kit/domain-based-scaffold/domains/service/delivery"
+	"github.com/lancer-kit/domain-based-scaffold/domains/service/repo"
 	"github.com/lancer-kit/domain-based-scaffold/info"
-	"github.com/lancer-kit/domain-based-scaffold/workers/api/handler"
 	"github.com/lancer-kit/uwe/v2/presets/api"
 	"github.com/sirupsen/logrus"
 )
 
-func Server(entry *logrus.Entry, apiCfg api.Config) *api.Server {
-	return api.NewServer(apiCfg, GetRouter(entry, apiCfg))
+func Server(entry *logrus.Entry, cfg *config.Configuration) *api.Server {
+	return api.NewServer(cfg.Api, GetRouter(entry, cfg))
 }
 
-func GetRouter(logger *logrus.Entry, config api.Config) http.Handler {
+func GetRouter(logger *logrus.Entry, config *config.Configuration) http.Handler {
 	r := chi.NewRouter()
+	repoObj, err := repo.NewRepo(config.DB, logger)
+	if err != nil {
+		logger.WithError(err).Fatal("unable to initialize repo")
+	}
+
+	handlers := delivery.NewHandlers(repoObj, logger)
 
 	// A good base middleware stack
 	r.Use(middleware.RequestID)
@@ -30,15 +37,15 @@ func GetRouter(logger *logrus.Entry, config api.Config) http.Handler {
 	r.Use(middleware.Recoverer)
 	r.Use(log.NewRequestLogger(logger.Logger))
 
-	if config.EnableCORS {
+	if config.Api.EnableCORS {
 		r.Use(getCORS().Handler)
 	}
 
 	// Set a timeout value on the request context (ctx), that will signal
 	// through ctx.Done() that the request has timed out and further
 	// processing should be stopped.
-	if config.ApiRequestTimeout > 0 {
-		t := time.Duration(config.ApiRequestTimeout)
+	if config.Api.ApiRequestTimeout > 0 {
+		t := time.Duration(config.Api.ApiRequestTimeout)
 		r.Use(middleware.Timeout(t * time.Second))
 	}
 
@@ -46,35 +53,35 @@ func GetRouter(logger *logrus.Entry, config api.Config) http.Handler {
 		r.Get("/status", func(w http.ResponseWriter, r *http.Request) {
 			render.Success(w, info.App)
 		})
+
 		r.Route("/", func(r chi.Router) {
 			r.Use(auth.ExtractUserID())
 
 			r.Route("/{mId}/buzz", func(r chi.Router) {
 				//custom middleware example
 				r.Use(delivery.VerifySomethingMiddleware())
-				r.Post("/", handler.AddBuzz)
-				r.Get("/", handler.AllBuzz)
+				r.Post("/", handlers.AddBuzz)
+				r.Get("/", handlers.AllBuzz)
 
 				r.Route("/{id}", func(r chi.Router) {
-					r.Get("/", handler.GetBuzz)
-					r.Put("/", handler.ChangeBuzz)
-					r.Delete("/", handler.DeleteBuzz)
+					r.Get("/", handlers.GetBuzz)
+					r.Put("/", handlers.ChangeBuzz)
+					r.Delete("/", handlers.DeleteBuzz)
 				})
 
 			})
 		})
 
 		r.Route("/couch", func(r chi.Router) {
-			r.Post("/", handler.AddDocument)
-			r.Get("/", handler.GetAllDocument)
+			r.Post("/", handlers.AddDocument)
+			r.Get("/", handlers.GetAllDocument)
 
 			r.Route("/{id}", func(r chi.Router) {
-				r.Get("/", handler.GetDocument)
-				r.Put("/", handler.ChangeDocument)
-				r.Delete("/", handler.DeleteDocument)
+				r.Get("/", handlers.GetDocument)
+				r.Put("/", handlers.ChangeDocument)
+				r.Delete("/", handlers.DeleteDocument)
 			})
 		})
-
 	})
 
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
@@ -83,6 +90,7 @@ func GetRouter(logger *logrus.Entry, config api.Config) http.Handler {
 
 	return r
 }
+
 func getCORS() *cors.Cors {
 	return cors.New(cors.Options{
 		AllowedOrigins:   []string{"*"},
